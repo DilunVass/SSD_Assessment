@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id "org.owasp.dependencycheck" version "10.0.4"
 }
 
 group = 'com.educationPlatform.content-service'
@@ -27,7 +28,22 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
+dependencyCheck {
+	format = 'ALL'
+	autoUpdate = true
+	failBuildOnCVSS = 7
+	suppressionFiles = ['dependency-check-suppressions.xml']
+	analyzers {
+		assemblyEnabled = false
+	}
+	// Add the NVD API Key
+	nvd {
+		apiKey = '1505414e-3d0c-4184-b036-fe5f3b30430e'
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

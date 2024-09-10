@@ -14,8 +14,8 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    /// private final String SECRET_KEY = "9dc737a6b33a867a2d49fee5dd81ce22ed3de420cd22539ca90cf66944000c7f";
-    private final String SECRET_KEY = ".."; // don't hardcode the secret key
+    private final String SECRET_KEY = "9dc737a6b33a867a2d49fee5dd81ce22ed3de420cd22539ca90cf66944000c7f";
+//    private final String SECRET_KEY = ".."; // don't hardcode the secret key
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
