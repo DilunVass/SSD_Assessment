@@ -74,22 +74,83 @@
                     </div>
                 </div>
 
+<!--                <div class="form-group">-->
+<!--                    <label for="password" class="cols-sm-2 control-label">Password</label>-->
+<!--                    <div class="cols-sm-10">-->
+<!--                        <div class="input-group">-->
+<!--                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>-->
+<!--                            <input type="password" class="form-control" th:value="${user.password}" id="password"-->
+<!--                                   name="password" roleId="password" placeholder="Enter your Password"-->
+<!--                                   required="required"-->
+<!--                                   pattern="(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?/~`\-])[A-Za-z\d!@#$%^&*()_+={}\[\]:;<>,.?/~`\-]{8,}"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                        <div class="checkbox">-->
+<!--                            <label>-->
+<!--                                <input id="showPassword" type="checkbox"/>Show Password-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
                 <div class="form-group">
                     <label for="password" class="cols-sm-2 control-label">Password</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" th:value="${user.password}" id="password"
-                                   name="password" roleId="password" placeholder="Enter your Password"
-                                   required="required"/>
+                            <input type="password" class="form-control" th:value="${user.password}"
+                                   id="password" name="password"
+                                   roleId="password" placeholder="Enter your Password"
+                                   required="required"
+                                   pattern="(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?/~`\-])[A-Za-z\d!@#$%^&*()_+={}\[\]:;<>,.?/~`\-]{8,}"
+                                   title="Password must be at least 8 characters long and contain at least one special character"/>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input id="showPassword" type="checkbox"/>Show Password
+                                <input id="showPassword" type="checkbox"/> Show Password
                             </label>
                         </div>
+                        <!-- Warning message container -->
+                        <span id="passwordWarning" class="text-danger" style="display:none;">Password must be at least 8 characters long and contain at least one special character.</span>
                     </div>
                 </div>
+
+                <script>
+                    document.getElementById('showPassword').addEventListener('click', function () {
+                        var passwordField = document.getElementById('password');
+                        if (this.checked) {
+                            passwordField.type = 'text';
+                        } else {
+                            passwordField.type = 'password';
+                        }
+                    });
+
+                    // Password validation warning message
+                    document.getElementById('password').addEventListener('input', function () {
+                        var passwordField = document.getElementById('password');
+                        var passwordWarning = document.getElementById('passwordWarning');
+                        var pattern = new RegExp("(?=.*[!@#$%^&*()_+={}\\[\\]:;<>,.?/~`\\-])[A-Za-z\\d!@#$%^&*()_+={}\\[\\]:;<>,.?/~`\\-]{8,}");
+
+                        if (!pattern.test(passwordField.value)) {
+                            passwordWarning.style.display = 'block'; // Show warning message
+                        } else {
+                            passwordWarning.style.display = 'none'; // Hide warning message
+                        }
+                    });
+
+                    document.querySelector('form').addEventListener('submit', function (event) {
+                        var passwordField = document.getElementById('password');
+                        var passwordWarning = document.getElementById('passwordWarning');
+                        var pattern = new RegExp("(?=.*[!@#$%^&*()_+={}\\[\\]:;<>,.?/~`\\-])[A-Za-z\\d!@#$%^&*()_+={}\\[\\]:;<>,.?/~`\\-]{8,}");
+
+                        if (!pattern.test(passwordField.value)) {
+                            event.preventDefault(); // Prevent form submission
+                            passwordWarning.style.display = 'block'; // Show warning message
+                            alert("Please correct the errors in the form before submitting.");
+                        }
+                    });
+                </script>
+
 
                 <!--<div class="form-group">-->
                 <!--<label for="confirm" class="cols-sm-2 control-label">Confirm Secret</label>-->

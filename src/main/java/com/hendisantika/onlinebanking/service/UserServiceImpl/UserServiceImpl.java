@@ -6,6 +6,7 @@ import com.hendisantika.onlinebanking.repository.UserDao;
 import com.hendisantika.onlinebanking.security.UserRole;
 import com.hendisantika.onlinebanking.service.AccountService;
 import com.hendisantika.onlinebanking.service.UserService;
+import com.hendisantika.onlinebanking.util.PasswordValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,12 +62,42 @@ public class UserServiceImpl implements UserService {
     }
 
 
+//    public User createUser(User user, Set<UserRole> userRoles) {
+//        User localUser = userDao.findByUsername(user.getUsername());
+//
+//        if (localUser != null) {
+//            log.info("User with username {} already exist. Nothing will be done. ", user.getUsername());
+//        } else {
+//            String encryptedPassword = passwordEncoder.encode(user.getPassword());
+//            user.setPassword(encryptedPassword);
+//
+//            for (UserRole ur : userRoles) {
+//                roleDao.save(ur.getRole());
+//            }
+//
+//            user.getUserRoles().addAll(userRoles);
+//
+//            user.setPrimaryAccount(accountService.createPrimaryAccount());
+//            user.setSavingsAccount(accountService.createSavingsAccount());
+//
+//            localUser = userDao.save(user);
+//        }
+//
+//        return localUser;
+//    }
+
     public User createUser(User user, Set<UserRole> userRoles) {
         User localUser = userDao.findByUsername(user.getUsername());
 
         if (localUser != null) {
-            log.info("User with username {} already exist. Nothing will be done. ", user.getUsername());
+            log.info("User with username {} already exists. Nothing will be done. ", user.getUsername());
         } else {
+            // Validate the password
+            if (!PasswordValidator.isValid(user.getPassword())) {
+                throw new IllegalArgumentException("Password must be at least 8 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character.");
+            }
+
+            // Encrypt the password if validation passed
             String encryptedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encryptedPassword);
 

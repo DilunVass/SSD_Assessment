@@ -23,6 +23,7 @@
                 You have been logged out.
             </div>
             <form class="form-signin" th:action="@{/index}" method="post">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <h2 class="form-signin-heading">Please sign in</h2>
                 <div class="form-group">
                     <label for="username" class="sr-only">Username</label>

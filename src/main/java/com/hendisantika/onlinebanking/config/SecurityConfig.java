@@ -8,10 +8,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.security.SecureRandom;
@@ -61,17 +61,42 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
     }
 
+//    @Bean
+//    public SecurityFilterChain configure(HttpSecurity http, UserDetailsService userDetailsServiceBean) throws Exception {
+//        http
+//                .authorizeHttpRequests(authz -> authz
+//                        .requestMatchers(PUBLIC_MATCHERS).permitAll()
+//                        .anyRequest().authenticated()
+//                );
+//
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .cors().disable()
+//                .formLogin(formLogin -> formLogin
+//                        .loginPage("/index").permitAll()
+//                        .defaultSuccessUrl("/userFront", true)
+//                        .failureUrl("/index?error")
+//                )
+//                .logout(logout -> logout
+//                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                        .logoutSuccessUrl("/index?logout")
+//                        .deleteCookies("remember-me").permitAll()
+//                        .logoutSuccessUrl("/login?logout")
+//                )
+//                .rememberMe().userDetailsService(userDetailsServiceBean);
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http, UserDetailsService userDetailsServiceBean) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
                         .anyRequest().authenticated()
-                );
-
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors().disable()
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(new AntPathRequestMatcher("/signup"))  // Optionally ignore CSRF for some requests
+                )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/index").permitAll()
                         .defaultSuccessUrl("/userFront", true)
@@ -86,6 +111,8 @@ public class SecurityConfig {
                 .rememberMe().userDetailsService(userDetailsServiceBean);
         return http.build();
     }
+
+
 
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -109,3 +136,4 @@ public class SecurityConfig {
     }
 
 }
+
