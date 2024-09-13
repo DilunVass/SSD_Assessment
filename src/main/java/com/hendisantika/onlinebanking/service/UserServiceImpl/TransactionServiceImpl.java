@@ -107,6 +107,8 @@ public class TransactionServiceImpl implements TransactionService {
                 .filter(recipient -> username.equals(recipient.getUser().getUsername()))
                 .collect(Collectors.toList());
 
+
+
         return recipientList;
     }
 
