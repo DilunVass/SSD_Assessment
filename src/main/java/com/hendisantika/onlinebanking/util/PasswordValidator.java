@@ -1,15 +1,20 @@
 package com.hendisantika.onlinebanking.util;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.util.regex.Pattern;
 
+@Component
 public class PasswordValidator {
 
-    private static final String PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$";
+    private static Pattern pattern = null;
 
-    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-
+    // Load pattern from the configuration file
+    public PasswordValidator(@Value("${password.pattern}") String passwordPattern) {
+        pattern = Pattern.compile(passwordPattern);
+    }
     public static boolean isValid(final String password) {
         return pattern.matcher(password).matches();
     }
