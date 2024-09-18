@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,6 +29,8 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RequestFilter implements Filter {
 
+    private static final Logger logger = LoggerFactory.getLogger(RequestFilter.class);
+
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
@@ -41,7 +45,8 @@ public class RequestFilter implements Filter {
             try {
                 chain.doFilter(req, res);
             } catch (Exception e) {
-                e.printStackTrace();
+                // Log the exception with an error message instead of printing stack trace
+                logger.error("An error occurred during request processing: {}", e.getMessage(), e);
             }
         } else {
             log.info("Pre-flight");
