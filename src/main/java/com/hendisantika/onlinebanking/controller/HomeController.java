@@ -9,9 +9,7 @@ import com.hendisantika.onlinebanking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashSet;
@@ -35,7 +33,7 @@ public class HomeController {
 
     private final RoleDao roleDao;
 
-    @GetMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
         return "redirect:/index";
     }
