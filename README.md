@@ -20,3 +20,4 @@ A significant focus of this project is on addressing and fixing security vulnera
 * https://github.com/DilunVass/SSD_Assessment.git
 
 ## Fix Project Explanation Video
+* https://youtu.be/kJetI4xQt6Y
