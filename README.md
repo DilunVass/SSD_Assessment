@@ -14,7 +14,7 @@ A significant focus of this project is on addressing and fixing security vulnera
 
 
 ## Original Project Source Code GitHub Link
-* [https://github.com/DilunVass/-Educational-Platform-for-Online-Learning.git](https://github.com/hendisantika/Online-banking-angular-springboot-mysql)
+* https://github.com/hendisantika/Online-banking-angular-springboot-mysql.git
 
 ## Modified Project GitHub Link
 * https://github.com/DilunVass/SSD_Assessment.git
