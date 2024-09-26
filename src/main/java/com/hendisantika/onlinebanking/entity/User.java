@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -43,6 +44,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "Invalid email format")
     private String email;
     private String phone;
 
