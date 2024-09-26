@@ -12,7 +12,7 @@
 
 
 ## Original Project Source Code GitHub Link
-* https://github.com/DilunVass/-Educational-Platform-for-Online-Learning.git
+* [https://github.com/DilunVass/-Educational-Platform-for-Online-Learning.git](https://github.com/hendisantika/Online-banking-angular-springboot-mysql)
 
 ## Modified Project GitHub Link
 * https://github.com/DilunVass/SSD_Assessment.git
