@@ -141,7 +141,9 @@
 package com.hendisantika.onlinebanking.config;
 
 import com.hendisantika.onlinebanking.repository.UserDao;
+import com.hendisantika.onlinebanking.service.UserServiceImpl.RateLimittingFilter;
 import com.hendisantika.onlinebanking.service.UserServiceImpl.UserSecurityServiceImpl;
+import org.apache.catalina.filters.RateLimitFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -208,7 +210,9 @@ public class SecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .ignoringRequestMatchers(new AntPathRequestMatcher("/signup"))  // Optionally ignore CSRF for /signup
                 )
+//                .addFilterBefore(new RateLimitFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new RateLimittingFilter(), CsrfCookieFilter.class)
                 .formLogin(formLogin -> formLogin
                         .loginPage("/index").permitAll()
                         .defaultSuccessUrl("/userFront", true)
